@@ -1,0 +1,41 @@
+/* Ficha Médica — hoja de estilos base (Integrante 1) */
+:root{
+  --azul:#1c4e80; --azul-claro:#e8f0f8; --gris:#5b6670; --borde:#c9d2da;
+  --rojo:#b3261e; --verde:#1e7a3c; --fondo:#f5f7fa;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Segoe UI",Arial,sans-serif;background:var(--fondo);color:#22282e}
+.cabecera{background:var(--azul);color:#fff;padding:18px 24px}
+.cabecera h1{margin:0;font-size:1.5rem}
+.cabecera p{margin:4px 0 0;font-size:.85rem;opacity:.85}
+.contenedor{max-width:900px;margin:24px auto;padding:0 16px;display:grid;gap:20px}
+.tarjeta{background:#fff;border:1px solid var(--borde);border-radius:8px;padding:20px}
+.tarjeta h2{margin:0 0 16px;font-size:1.1rem;color:var(--azul);border-bottom:2px solid var(--azul-claro);padding-bottom:8px}
+.campo{margin-bottom:14px;display:flex;flex-direction:column}
+label{font-size:.85rem;font-weight:600;margin-bottom:4px}
+.req{color:var(--rojo)}
+input,select,textarea{padding:8px 10px;border:1px solid var(--borde);border-radius:4px;font-size:.95rem;font-family:inherit}
+input:focus,select:focus,textarea:focus{outline:2px solid var(--azul);border-color:var(--azul)}
+input.invalido,select.invalido,textarea.invalido{border-color:var(--rojo);background:#fdf3f2}
+input.valido,select.valido,textarea.valido{border-color:var(--verde)}
+.error{color:var(--rojo);font-size:.78rem;min-height:1em;margin-top:3px}
+.botones{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+.btn{padding:9px 18px;border:none;border-radius:4px;font-size:.9rem;font-weight:600;cursor:pointer}
+.primario{background:var(--azul);color:#fff}
+.secundario{background:#e3e8ee;color:var(--gris)}
+.peligro{background:#8a2d26;color:#fff}
+.btn:hover{opacity:.9}
+.mensaje{margin-top:14px;font-size:.9rem;padding:10px;border-radius:4px;display:none}
+.mensaje.exito{display:block;background:#e6f4ea;color:var(--verde);border:1px solid var(--verde)}
+.mensaje.fallo{display:block;background:#fdf3f2;color:var(--rojo);border:1px solid var(--rojo)}
+.buscador{display:flex;gap:8px;flex-wrap:wrap}
+.buscador input{flex:1;min-width:200px}
+.resultados{margin-top:14px}
+table{width:100%;border-collapse:collapse;font-size:.85rem}
+th,td{border:1px solid var(--borde);padding:7px 8px;text-align:left}
+th{background:var(--azul-claro);color:var(--azul)}
+.vacio{color:var(--gris);font-size:.9rem;font-style:italic}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.45);display:flex;align-items:center;justify-content:center}
+.modal.oculto{display:none}
+.modal-caja{background:#fff;padding:24px;border-radius:8px;max-width:420px;width:90%}
+.modal-caja h3{margin:0 0 10px;color:var(--azul)}
