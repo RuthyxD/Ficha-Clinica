@@ -1,4 +1,7 @@
-# Ficha Médica — base del grupo (Semana 3)
+# Ficha Médica — Ingreso de Pacientes
+
+Formulario de ficha médica desarrollado para la actividad sumativa de la **Semana 3**
+del Taller de Testing y Calidad de Software (AIEP). Trabajo grupal.
 
 ## Archivos
 - `index.html` — formulario completo (10 campos, 3 botones, buscador y modal de sobrescritura).
