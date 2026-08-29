@@ -153,7 +153,7 @@ registrar('email', valor => {
 
 /* =====================================================================
    ===== INTEGRANTE 3 =====  Fecha de nacimiento, Estado civil,
-   Comentarios, botones Guardar / Limpiar / Cerrar y sobrescritura.
+   Comentarios, pintarBotones Guardar / Limpiar / Cerrar y sobrescritura.
    ===================================================================== */
 
 registrar('fechaNacimiento', valor => {
@@ -242,33 +242,118 @@ function buscarApellido() {
   const termino = document.getElementById('buscarApellido').value.trim();
   const spanError = document.getElementById('error-buscarApellido');
   spanError.textContent = '';
+  let spanContador = document.getElementById('span-contador');
+  spanContador.textContent = '';
+  const div = document.getElementById('resultados');
+  div.innerHTML = '';
 
   if (termino === '') {
-    spanError.textContent = 'Ingrese un apellido para buscar.';
+    mostrarError('buscarApellido','Ingrese un apellido para buscar.');
     return;
   }
-  // TODO (Integrante 4): validar largo mínimo y que solo contenga letras.
-
+  if (!/^[A-Za-zÁÉÍÓÚáéíóúÑñÜü\s]+$/.test(termino)){
+     mostrarError('buscarApellido', 'Formato invalido. Solo se admiten letras y espacios.');
+    return;
+  }
+  // if (termino.length < 2) {
+  //  mostrarError('buscarApellido', 'Debe ingresar al menos 2 letras'); return;}//me gusta la idea de que busque todos los q empiezan con el input
+  
   const encontrados = leerFichas().filter(f =>
-    f.apellidos.toLowerCase().includes(termino.toLowerCase()));
-  pintarResultados(encontrados);
+    f.apellidos.toLowerCase().startsWith(termino.toLowerCase()));
+    pintarResultados(encontrados);
 }
 
+    
 function pintarResultados(lista) {
   const div = document.getElementById('resultados');
+  const input = document.getElementById('buscarApellido');
+  const spanError = document.getElementById('error-buscarApellido');
+  spanError.textContent = '';
+  input.className = 'input';
+
   if (lista.length === 0) {
     div.innerHTML = '<p class="vacio">No se encontraron pacientes con ese apellido.</p>';
     return;
   }
-  // TODO (Integrante 4): agregar columnas Teléfono y Ciudad, y un contador
-  // con la cantidad de coincidencias encontradas.
-  let html = '<table><tr><th>RUT</th><th>Nombres</th><th>Apellidos</th><th>Email</th></tr>';
-  lista.forEach(f => {
-    html += `<tr><td>${f.rut}</td><td>${f.nombres}</td><td>${f.apellidos}</td><td>${f.email}</td></tr>`;
+
+  lista.sort(function(a, b){
+    let x = a.apellidos.toLowerCase();
+    let y = b.apellidos.toLowerCase();
+    if (x < y) {return -1;}
+    if (x > y) {return 1;}
+    return 0;
   });
-  div.innerHTML = html + '</table>';
+
+
+  let spanContador = document.getElementById('span-contador');
+  spanContador.textContent = 'Coincidencias encontradas: ' + lista.length;
+  let html = '<table><tr><th>RUT</th><th>Nombres</th><th>Apellidos</th><th>Fecha Nacimiento</th><th>Email</th><th>Telefono</th><th>Ciudad</th><th>Direccion</th><th>Estado civil</th><th>Comentarios</th></tr>';
+  
+
+const limiteDatos = 10;
+
+  if(lista.length<limiteDatos){
+    lista.forEach(f => {
+      html += `<tr><td>${f.rut}</td><td>${f.nombres}</td><td>${f.apellidos}</td><td>${f.fechaNacimiento}</td><td>${f.email}</td><td>${f.telefono}</td><td>${f.ciudad}</td><td>${f.direccion}</td><td>${f.estadoCivil}</td><td>${f.comentarios}</td></tr>`;
+    });
+    div.innerHTML = html + '</table>';  
+  }
+
+  if(lista.length>limiteDatos){
+    let subarray = dividirLista(lista,limiteDatos);
+    let pagina= 0;
+    pintarPagina(subarray,pagina);
+    pintarBotones(subarray,pagina); 
+}}
+
+
+function dividirLista(lista,size){ 
+    let subarray = [];
+    for (let i=0; i < lista.length; i+=size ){
+      subarray.push(lista.slice(i, i + size));
+    }
+    return subarray;
 }
 
+function pintarPagina(subarray,pagina){
+    const div = document.getElementById('resultados');
+    let html = '<table><tr><th>RUT</th><th>Nombres</th><th>Apellidos</th><th>Fecha Nacimiento</th><th>Email</th><th>Telefono</th><th>Ciudad</th><th>Direccion</th><th>Estado civil</th><th>Comentarios</th></tr>';
+    subarray[pagina].forEach(f => {
+      html += `<tr><td>${f.rut}</td><td>${f.nombres}</td><td>${f.apellidos}</td><td>${f.fechaNacimiento}</td><td>${f.email}</td><td>${f.telefono}</td><td>${f.ciudad}</td><td>${f.direccion}</td><td>${f.estadoCivil}</td><td>${f.comentarios}</td></tr>`;
+      div.innerHTML = html + '</table>';
+    })
+}
+  
+function pintarBotones(subarray,pagina){
+    const div = document.getElementById('resultados');
+    const sigPagina = document.createElement('button');
+    sigPagina.innerHTML= '>';
+    const anteriorPagina = document.createElement('button');
+    anteriorPagina.innerHTML= '<';
+
+    sigPagina.addEventListener('click' , () => {
+      pagina ++;
+      pintarPagina(subarray,pagina); 
+      pintarBotones(subarray,pagina);
+      });
+
+    anteriorPagina.addEventListener('click' , () => {
+      pagina --;
+      pintarPagina(subarray,pagina);  
+      pintarBotones(subarray,pagina);
+    });
+
+    if(pagina+1 < subarray.length && pagina > 0){
+      div.appendChild(anteriorPagina);
+      div.appendChild(sigPagina);
+    }
+    else if(pagina+1 < subarray.length){
+        div.appendChild(sigPagina);
+      }
+    else{
+        div.appendChild(anteriorPagina);
+    }
+  }
 
 /* ---------------------------------------------------------------------
    ENLACE DE EVENTOS (común)
