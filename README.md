@@ -3,6 +3,8 @@
 Formulario de ficha médica desarrollado para la actividad sumativa de la **Semana 3**
 del Taller de Testing y Calidad de Software (AIEP). Trabajo grupal.
 
+**Aplicación publicada:** https://ruthyxd.github.io/Ficha-Clinica/
+
 ## Archivos
 - `index.html` — formulario completo (10 campos, 3 botones, buscador y modal de sobrescritura).
 - `styles.css` — estilos.

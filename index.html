@@ -8,86 +8,114 @@
 </head>
 <body>
   <header class="cabecera">
-    <h1>Ficha Médica</h1>
-    <p>Taller de Testing y Calidad de Software — Semana 3</p>
+    <div class="cabecera-interior">
+      <div class="marca">
+        <span class="logo" aria-hidden="true">✚</span>
+        <div>
+          <h1>Ficha Médica</h1>
+          <p>Registro de pacientes</p>
+        </div>
+      </div>
+      <p class="cabecera-modulo">Taller de Testing y Calidad de Software · Semana 3</p>
+    </div>
   </header>
 
   <main class="contenedor">
 
     <!-- ============ FORMULARIO DE INGRESO ============ -->
     <section class="tarjeta">
-      <h2>Ingreso de ficha</h2>
+      <div class="tarjeta-encabezado">
+        <h2>Ingreso de ficha</h2>
+        <p class="ayuda">Los campos marcados con <span class="req">*</span> son obligatorios.</p>
+      </div>
+
       <form id="formFicha" novalidate>
 
         <!-- ---- Bloque INTEGRANTE 1: identificación ---- -->
-        <div class="campo">
-          <label for="rut">RUT <span class="req">*</span></label>
-          <input type="text" id="rut" name="rut" maxlength="12" placeholder="12345678-9" autocomplete="off">
-          <small class="error" id="error-rut"></small>
-        </div>
+        <fieldset class="grupo">
+          <legend>Identificación del paciente</legend>
+          <div class="rejilla">
+            <div class="campo">
+              <label for="rut">RUT <span class="req">*</span></label>
+              <input type="text" id="rut" name="rut" maxlength="12" placeholder="12345678-9" autocomplete="off">
+              <small class="error" id="error-rut"></small>
+            </div>
 
-        <div class="campo">
-          <label for="nombres">Nombres <span class="req">*</span></label>
-          <input type="text" id="nombres" name="nombres" maxlength="50" autocomplete="off">
-          <small class="error" id="error-nombres"></small>
-        </div>
+            <div class="campo">
+              <label for="fechaNacimiento">Fecha de Nacimiento <span class="req">*</span></label>
+              <input type="date" id="fechaNacimiento" name="fechaNacimiento">
+              <small class="error" id="error-fechaNacimiento"></small>
+            </div>
 
-        <div class="campo">
-          <label for="apellidos">Apellidos <span class="req">*</span></label>
-          <input type="text" id="apellidos" name="apellidos" maxlength="50" autocomplete="off">
-          <small class="error" id="error-apellidos"></small>
-        </div>
+            <div class="campo">
+              <label for="nombres">Nombres <span class="req">*</span></label>
+              <input type="text" id="nombres" name="nombres" maxlength="50" autocomplete="off">
+              <small class="error" id="error-nombres"></small>
+            </div>
+
+            <div class="campo">
+              <label for="apellidos">Apellidos <span class="req">*</span></label>
+              <input type="text" id="apellidos" name="apellidos" maxlength="50" autocomplete="off">
+              <small class="error" id="error-apellidos"></small>
+            </div>
+
+            <div class="campo">
+              <label for="estadoCivil">Estado civil <span class="req">*</span></label>
+              <select id="estadoCivil" name="estadoCivil">
+                <option value="">-- Seleccione --</option>
+                <option value="Soltero(a)">Soltero(a)</option>
+                <option value="Casado(a)">Casado(a)</option>
+                <option value="Divorciado(a)">Divorciado(a)</option>
+                <option value="Viudo(a)">Viudo(a)</option>
+                <option value="Conviviente civil">Conviviente civil</option>
+              </select>
+              <small class="error" id="error-estadoCivil"></small>
+            </div>
+          </div>
+        </fieldset>
 
         <!-- ---- Bloque INTEGRANTE 2: contacto y ubicación ---- -->
-        <div class="campo">
-          <label for="direccion">Dirección <span class="req">*</span></label>
-          <input type="text" id="direccion" name="direccion" maxlength="80" autocomplete="off">
-          <small class="error" id="error-direccion"></small>
-        </div>
+        <fieldset class="grupo">
+          <legend>Contacto y ubicación</legend>
+          <div class="rejilla">
+            <div class="campo ancho-total">
+              <label for="direccion">Dirección <span class="req">*</span></label>
+              <input type="text" id="direccion" name="direccion" maxlength="80" autocomplete="off">
+              <small class="error" id="error-direccion"></small>
+            </div>
 
-        <div class="campo">
-          <label for="ciudad">Ciudad <span class="req">*</span></label>
-          <input type="text" id="ciudad" name="ciudad" maxlength="40" autocomplete="off">
-          <small class="error" id="error-ciudad"></small>
-        </div>
+            <div class="campo">
+              <label for="ciudad">Ciudad <span class="req">*</span></label>
+              <input type="text" id="ciudad" name="ciudad" maxlength="40" autocomplete="off">
+              <small class="error" id="error-ciudad"></small>
+            </div>
 
-        <div class="campo">
-          <label for="telefono">Teléfono <span class="req">*</span></label>
-          <input type="text" id="telefono" name="telefono" maxlength="15" placeholder="+56912345678" autocomplete="off">
-          <small class="error" id="error-telefono"></small>
-        </div>
+            <div class="campo">
+              <label for="telefono">Teléfono <span class="req">*</span></label>
+              <input type="text" id="telefono" name="telefono" maxlength="15" placeholder="+56912345678" autocomplete="off">
+              <small class="error" id="error-telefono"></small>
+            </div>
 
-        <div class="campo">
-          <label for="email">Email <span class="req">*</span></label>
-          <input type="text" id="email" name="email" maxlength="60" placeholder="nombre@dominio.cl" autocomplete="off">
-          <small class="error" id="error-email"></small>
-        </div>
+            <div class="campo ancho-total">
+              <label for="email">Email <span class="req">*</span></label>
+              <input type="text" id="email" name="email" maxlength="60" placeholder="nombre@dominio.cl" autocomplete="off">
+              <small class="error" id="error-email"></small>
+            </div>
+          </div>
+        </fieldset>
 
-        <!-- ---- Bloque INTEGRANTE 3: datos complementarios ---- -->
-        <div class="campo">
-          <label for="fechaNacimiento">Fecha de Nacimiento <span class="req">*</span></label>
-          <input type="date" id="fechaNacimiento" name="fechaNacimiento">
-          <small class="error" id="error-fechaNacimiento"></small>
-        </div>
-
-        <div class="campo">
-          <label for="estadoCivil">Estado civil <span class="req">*</span></label>
-          <select id="estadoCivil" name="estadoCivil">
-            <option value="">-- Seleccione --</option>
-            <option value="Soltero(a)">Soltero(a)</option>
-            <option value="Casado(a)">Casado(a)</option>
-            <option value="Divorciado(a)">Divorciado(a)</option>
-            <option value="Viudo(a)">Viudo(a)</option>
-            <option value="Conviviente civil">Conviviente civil</option>
-          </select>
-          <small class="error" id="error-estadoCivil"></small>
-        </div>
-
-        <div class="campo">
-          <label for="comentarios">Comentarios</label>
-          <textarea id="comentarios" name="comentarios" rows="3" maxlength="250"></textarea>
-          <small class="error" id="error-comentarios"></small>
-        </div>
+        <!-- ---- Bloque INTEGRANTE 3: antecedentes ---- -->
+        <fieldset class="grupo">
+          <legend>Antecedentes</legend>
+          <div class="rejilla">
+            <div class="campo ancho-total">
+              <label for="comentarios">Comentarios <span class="opcional">(opcional)</span></label>
+              <textarea id="comentarios" name="comentarios" rows="3" maxlength="250"
+                        placeholder="Observaciones relevantes del paciente"></textarea>
+              <small class="error" id="error-comentarios"></small>
+            </div>
+          </div>
+        </fieldset>
 
         <div class="botones">
           <button type="submit" id="btnGuardar" class="btn primario">Guardar</button>
@@ -95,12 +123,15 @@
           <button type="button" id="btnCerrar" class="btn peligro">Cerrar</button>
         </div>
       </form>
+
       <p id="mensajeGlobal" class="mensaje" role="status" aria-live="polite"></p>
     </section>
 
     <!-- ============ BÚSQUEDA POR APELLIDO (INTEGRANTE 4) ============ -->
     <section class="tarjeta">
-      <h2>Buscar paciente por apellido</h2>
+      <div class="tarjeta-encabezado">
+        <h2>Buscar paciente por apellido</h2>
+      </div>
       <div class="buscador">
         <input type="text" id="buscarApellido" maxlength="50" placeholder="Ingrese apellido" autocomplete="off">
         <button type="button" id="btnBuscar" class="btn primario">Buscar</button>
@@ -110,6 +141,10 @@
       <div id="resultados" class="resultados"></div>
     </section>
   </main>
+
+  <footer class="pie">
+    Instituto Profesional AIEP · Actividad sumativa semana 3
+  </footer>
 
   <!-- ============ MODAL DE SOBRESCRITURA (INTEGRANTE 3) ============ -->
   <div id="modalSobrescribir" class="modal oculto" role="dialog" aria-modal="true" aria-labelledby="tituloModal">

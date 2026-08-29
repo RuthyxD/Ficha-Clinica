@@ -1,41 +1,129 @@
-/* Ficha Médica — hoja de estilos base (Integrante 1) */
+/* Ficha Médica — hoja de estilos (Integrante 1) */
 :root{
-  --azul:#1c4e80; --azul-claro:#e8f0f8; --gris:#5b6670; --borde:#c9d2da;
-  --rojo:#b3261e; --verde:#1e7a3c; --fondo:#f5f7fa;
+  --azul:#12496f; --azul-medio:#1c6ea4; --azul-suave:#eaf2f8;
+  --gris:#5b6670; --gris-claro:#eef1f4; --borde:#d3dbe2;
+  --rojo:#b3261e; --rojo-suave:#fdf3f2; --verde:#1e7a3c; --verde-suave:#eaf6ee;
+  --fondo:#f2f5f8; --blanco:#fff; --texto:#22282e;
+  --sombra:0 1px 3px rgba(18,73,111,.08), 0 6px 18px rgba(18,73,111,.06);
+  --radio:10px;
 }
 *{box-sizing:border-box}
-body{margin:0;font-family:"Segoe UI",Arial,sans-serif;background:var(--fondo);color:#22282e}
-.cabecera{background:var(--azul);color:#fff;padding:18px 24px}
-.cabecera h1{margin:0;font-size:1.5rem}
-.cabecera p{margin:4px 0 0;font-size:.85rem;opacity:.85}
-.contenedor{max-width:900px;margin:24px auto;padding:0 16px;display:grid;gap:20px}
-.tarjeta{background:#fff;border:1px solid var(--borde);border-radius:8px;padding:20px}
-.tarjeta h2{margin:0 0 16px;font-size:1.1rem;color:var(--azul);border-bottom:2px solid var(--azul-claro);padding-bottom:8px}
-.campo{margin-bottom:14px;display:flex;flex-direction:column}
-label{font-size:.85rem;font-weight:600;margin-bottom:4px}
+body{
+  margin:0;background:var(--fondo);color:var(--texto);
+  font-family:"Segoe UI",system-ui,-apple-system,Arial,sans-serif;
+  font-size:15px;line-height:1.5;
+}
+
+/* ---------- Cabecera ---------- */
+.cabecera{background:linear-gradient(135deg,var(--azul) 0%,var(--azul-medio) 100%);color:#fff}
+.cabecera-interior{
+  max-width:960px;margin:0 auto;padding:20px 20px;
+  display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;
+}
+.marca{display:flex;align-items:center;gap:14px}
+.logo{
+  display:grid;place-items:center;width:42px;height:42px;flex:none;
+  background:rgba(255,255,255,.16);border-radius:50%;font-size:1.3rem;
+}
+.cabecera h1{margin:0;font-size:1.45rem;letter-spacing:.2px}
+.cabecera p{margin:2px 0 0;font-size:.85rem;opacity:.85}
+.cabecera-modulo{font-size:.8rem;opacity:.8;text-align:right}
+
+/* ---------- Estructura ---------- */
+.contenedor{max-width:960px;margin:26px auto;padding:0 20px;display:grid;gap:22px}
+.tarjeta{
+  background:var(--blanco);border:1px solid var(--borde);
+  border-radius:var(--radio);box-shadow:var(--sombra);padding:26px 28px;
+}
+.tarjeta-encabezado{
+  display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap;
+  border-bottom:2px solid var(--azul-suave);padding-bottom:12px;margin-bottom:20px;
+}
+.tarjeta h2{margin:0;font-size:1.12rem;color:var(--azul)}
+.ayuda{margin:0;font-size:.8rem;color:var(--gris)}
+
+/* ---------- Agrupaciones ---------- */
+.grupo{border:none;padding:0;margin:0 0 22px}
+.grupo legend{
+  padding:0;margin-bottom:12px;font-size:.76rem;font-weight:700;
+  letter-spacing:.9px;text-transform:uppercase;color:var(--azul-medio);
+}
+
+/* ---------- Rejilla de dos columnas ---------- */
+.rejilla{display:grid;grid-template-columns:1fr 1fr;gap:14px 22px}
+.campo{display:flex;flex-direction:column;min-width:0}
+.ancho-total{grid-column:1 / -1}
+
+label{font-size:.82rem;font-weight:600;margin-bottom:5px;color:#374049}
 .req{color:var(--rojo)}
-input,select,textarea{padding:8px 10px;border:1px solid var(--borde);border-radius:4px;font-size:.95rem;font-family:inherit}
-input:focus,select:focus,textarea:focus{outline:2px solid var(--azul);border-color:var(--azul)}
-input.invalido,select.invalido,textarea.invalido{border-color:var(--rojo);background:#fdf3f2}
+.opcional{font-weight:400;color:var(--gris);font-size:.76rem}
+
+input,select,textarea{
+  padding:9px 11px;border:1px solid var(--borde);border-radius:6px;
+  font-size:.93rem;font-family:inherit;background:var(--blanco);color:var(--texto);
+  transition:border-color .15s,box-shadow .15s;width:100%;
+}
+input::placeholder,textarea::placeholder{color:#9aa5ae}
+input:focus,select:focus,textarea:focus{
+  outline:none;border-color:var(--azul-medio);box-shadow:0 0 0 3px rgba(28,110,164,.14);
+}
+textarea{resize:vertical}
+input.invalido,select.invalido,textarea.invalido{border-color:var(--rojo);background:var(--rojo-suave)}
 input.valido,select.valido,textarea.valido{border-color:var(--verde)}
-.error{color:var(--rojo);font-size:.78rem;min-height:1em;margin-top:3px}
-.botones{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
-.btn{padding:9px 18px;border:none;border-radius:4px;font-size:.9rem;font-weight:600;cursor:pointer}
-.primario{background:var(--azul);color:#fff}
-.secundario{background:#e3e8ee;color:var(--gris)}
-.peligro{background:#8a2d26;color:#fff}
-.btn:hover{opacity:.9}
-.mensaje{margin-top:14px;font-size:.9rem;padding:10px;border-radius:4px;display:none}
-.mensaje.exito{display:block;background:#e6f4ea;color:var(--verde);border:1px solid var(--verde)}
-.mensaje.fallo{display:block;background:#fdf3f2;color:var(--rojo);border:1px solid var(--rojo)}
-.buscador{display:flex;gap:8px;flex-wrap:wrap}
-.buscador input{flex:1;min-width:200px}
-.resultados{margin-top:14px}
-table{width:100%;border-collapse:collapse;font-size:.85rem}
-th,td{border:1px solid var(--borde);padding:7px 8px;text-align:left}
-th{background:var(--azul-claro);color:var(--azul)}
-.vacio{color:var(--gris);font-size:.9rem;font-style:italic}
-.modal{position:fixed;inset:0;background:rgba(0,0,0,.45);display:flex;align-items:center;justify-content:center}
+.error{color:var(--rojo);font-size:.76rem;min-height:1.05em;margin-top:4px}
+
+/* ---------- Botones ---------- */
+.botones{display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end;
+  border-top:1px solid var(--gris-claro);padding-top:18px}
+.btn{
+  padding:9px 20px;border:1px solid transparent;border-radius:6px;
+  font-size:.88rem;font-weight:600;cursor:pointer;font-family:inherit;
+  transition:background .15s,box-shadow .15s;
+}
+.primario{background:var(--azul-medio);color:#fff}
+.primario:hover{background:var(--azul)}
+.secundario{background:var(--blanco);color:var(--gris);border-color:var(--borde)}
+.secundario:hover{background:var(--gris-claro)}
+.peligro{background:var(--blanco);color:var(--rojo);border-color:#e3b7b4}
+.peligro:hover{background:var(--rojo-suave)}
+.btn:focus-visible{outline:none;box-shadow:0 0 0 3px rgba(28,110,164,.3)}
+
+/* ---------- Mensajes ---------- */
+.mensaje{margin:16px 0 0;font-size:.88rem;padding:11px 14px;border-radius:6px;display:none}
+.mensaje.exito{display:block;background:var(--verde-suave);color:var(--verde);border:1px solid #b5ddc2}
+.mensaje.fallo{display:block;background:var(--rojo-suave);color:var(--rojo);border:1px solid #e3b7b4}
+
+/* ---------- Buscador y resultados ---------- */
+.buscador{display:flex;gap:10px;flex-wrap:wrap}
+.buscador input{flex:1;min-width:220px;width:auto}
+.resultados{margin-top:16px;overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:.85rem;min-width:520px}
+th,td{border-bottom:1px solid var(--borde);padding:9px 10px;text-align:left}
+th{background:var(--azul-suave);color:var(--azul);font-weight:600;
+   font-size:.76rem;text-transform:uppercase;letter-spacing:.5px}
+tr:last-child td{border-bottom:none}
+tbody tr:hover td{background:#f7fafc}
+.vacio{color:var(--gris);font-size:.88rem;font-style:italic;margin:0;
+  padding:16px;background:var(--gris-claro);border-radius:6px;text-align:center}
+
+/* ---------- Modal ---------- */
+.modal{position:fixed;inset:0;background:rgba(12,32,48,.5);
+  display:flex;align-items:center;justify-content:center;padding:20px;z-index:50}
 .modal.oculto{display:none}
-.modal-caja{background:#fff;padding:24px;border-radius:8px;max-width:420px;width:90%}
-.modal-caja h3{margin:0 0 10px;color:var(--azul)}
+.modal-caja{background:var(--blanco);padding:26px;border-radius:var(--radio);
+  max-width:440px;width:100%;box-shadow:0 12px 40px rgba(0,0,0,.25)}
+.modal-caja h3{margin:0 0 10px;color:var(--azul);font-size:1.05rem}
+.modal-caja p{margin:0 0 4px;font-size:.92rem}
+
+/* ---------- Pie ---------- */
+.pie{text-align:center;font-size:.78rem;color:var(--gris);padding:8px 20px 30px}
+
+/* ---------- Responsivo ---------- */
+@media (max-width:640px){
+  .rejilla{grid-template-columns:1fr}
+  .tarjeta{padding:20px 18px}
+  .cabecera-interior{flex-direction:column;align-items:flex-start}
+  .cabecera-modulo{text-align:left}
+  .botones{justify-content:stretch}
+  .botones .btn{flex:1}
+}
