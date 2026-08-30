@@ -125,31 +125,34 @@ registrar('apellidos', valor => {
 
 registrar('direccion', valor => {
   if (valor === '') return 'La dirección es obligatoria.';
-  // TODO (Integrante 2): largo mínimo 5 y máximo 80, permitir letras,
-  // números, espacios, punto, coma y numeral (#). Rechazar solo símbolos.
+  if (valor.length < 5) return 'La dirección debe tener al menos 5 caracteres.';
+  if (valor.length > 80) return 'La dirección no puede superar los 80 caracteres.';
+  if (!/^[A-Za-zÁÉÍÓÚáéíóúÑñ0-9\s.,#]+$/.test(valor)) return 'La dirección contiene caracteres no permitidos.';
   return null;
 });
 
 registrar('ciudad', valor => {
   if (valor === '') return 'La ciudad es obligatoria.';
-  // TODO (Integrante 2): solo letras y espacios, entre 3 y 40 caracteres.
+  if (valor.length < 3) return 'La ciudad debe tener al menos 3 caracteres.';
+  if (valor.length > 40) return 'La ciudad no puede superar los 40 caracteres.';
+  if (!/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/.test(valor)) return 'La ciudad solo puede contener letras y espacios.';
   return null;
 });
 
 registrar('telefono', valor => {
   if (valor === '') return 'El teléfono es obligatorio.';
-  // TODO (Integrante 2): formato chileno +569XXXXXXXX o 9 dígitos.
-  // Rechazar letras y largos distintos al esperado.
+  if (!/^(\+569\d{8}|\d{9})$/.test(valor)) return 'El teléfono debe tener formato +569XXXXXXXX o 9 dígitos.';
   return null;
 });
 
 registrar('email', valor => {
   if (valor === '') return 'El email es obligatorio.';
-  // TODO (Integrante 2): formato usuario@dominio.extension, sin espacios,
-  // máximo 60 caracteres, un solo arroba.
+  if (valor.length > 60) return 'El email no puede superar los 60 caracteres.';
+  if (/\s/.test(valor)) return 'El email no puede contener espacios.';
+  if ((valor.match(/@/g) || []).length !== 1) return 'El email debe contener un solo @.';
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(valor)) return 'El formato del email no es válido.';
   return null;
 });
-
 
 /* =====================================================================
    ===== INTEGRANTE 3 =====  Fecha de nacimiento, Estado civil,
