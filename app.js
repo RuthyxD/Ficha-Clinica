@@ -161,7 +161,16 @@ registrar('email', valor => {
 
 registrar('fechaNacimiento', valor => {
   if (valor === '') return 'La fecha de nacimiento es obligatoria.';
-  // TODO (Integrante 3): rechazar fechas futuras y edades mayores a 120 años.
+  const fecha = new Date(valor + 'T00:00:00');
+  if (isNaN(fecha.getTime())) return 'La fecha no es válida.';
+  if (fecha.getFullYear() < 1900) return 'La fecha no puede ser anterior a 1900.';
+  const hoy = new Date();
+  hoy.setHours(0, 0, 0, 0);
+  if (fecha > hoy) return 'La fecha de nacimiento no puede ser futura.';
+  let edad = hoy.getFullYear() - fecha.getFullYear();
+  const difMeses = hoy.getMonth() - fecha.getMonth();
+  if (difMeses < 0 || (difMeses === 0 && hoy.getDate() < fecha.getDate())) edad--;
+  if (edad > 120) return 'La edad no puede superar los 120 años.';
   return null;
 });
 
@@ -197,41 +206,50 @@ function guardar(sobrescribir) {
   mensajeGlobal(indice >= 0
     ? 'Registro sobrescrito correctamente.'
     : 'Registro guardado correctamente.', 'exito');
-  // TODO (Integrante 3): refrescar el listado de resultados tras guardar.
+  const divResultados = document.getElementById('resultados');
+  if (divResultados.innerHTML.trim() !== '') {
+    pintarResultados(leerFichas());
+  }
 }
 
 // --- Modal de sobrescritura ---
-let fichaPendiente = null;
-
 function abrirModal(ficha) {
-  fichaPendiente = ficha;
   document.getElementById('textoModal').textContent =
     'Ya existe una ficha registrada con el RUT ' + ficha.rut + '. ¿Desea sobrescribirla?';
   document.getElementById('modalSobrescribir').classList.remove('oculto');
+  document.getElementById('btnConfirmarSobrescribir').focus();
 }
 
 function cerrarModal() {
-  fichaPendiente = null;
   document.getElementById('modalSobrescribir').classList.add('oculto');
+  document.getElementById('btnGuardar').focus();
 }
 
 // --- Limpiar ---
 function limpiar() {
+  const datos = datosFormulario();
+  const tieneDatos = Object.values(datos).some(v => v !== '');
+  if (tieneDatos && !confirm('¿Está seguro de que desea limpiar el formulario? Se perderán los datos ingresados.')) {
+    return;
+  }
   document.getElementById('formFicha').reset();
   Object.keys(validadores).forEach(c => mostrarError(c, ''));
   document.querySelectorAll('input, select, textarea')
     .forEach(e => e.classList.remove('valido', 'invalido'));
   mensajeGlobal('Formulario limpiado.', 'exito');
-  // TODO (Integrante 3): pedir confirmación si el formulario tiene datos.
 }
 
 // --- Cerrar ---
 function cerrar() {
-  // TODO (Integrante 3): confirmar antes de cerrar y advertir si hay datos
-  // sin guardar. window.close() solo funciona en pestañas abiertas por script.
-  if (confirm('¿Está seguro de que desea cerrar la aplicación?')) {
-    window.close();
-    mensajeGlobal('Sesión cerrada. Puede cerrar esta pestaña.', 'exito');
+  const datos = datosFormulario();
+  const hayDatosSinGuardar = Object.values(datos).some(v => v !== '');
+  const pregunta = hayDatosSinGuardar
+    ? '¿Está seguro de que desea cerrar? Hay datos sin guardar que se perderán.'
+    : '¿Está seguro de que desea cerrar la aplicación?';
+  if (confirm(pregunta)) {
+    document.getElementById('formFicha').classList.add('oculto');
+    document.getElementById('buscador').classList.add('oculto');
+    mensajeGlobal('Sesión finalizada. Puede cerrar esta pestaña.', 'exito');
   }
 }
 
@@ -383,5 +401,17 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('btnCancelarSobrescribir').addEventListener('click', () => {
     cerrarModal();
     mensajeGlobal('Operación cancelada. El registro existente no fue modificado.', 'fallo');
+  });
+  document.getElementById('modalSobrescribir').addEventListener('click', e => {
+    if (e.target.id === 'modalSobrescribir') {
+      cerrarModal();
+      mensajeGlobal('Operación cancelada. El registro existente no fue modificado.', 'fallo');
+    }
+  });
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && !document.getElementById('modalSobrescribir').classList.contains('oculto')) {
+      cerrarModal();
+      mensajeGlobal('Operación cancelada. El registro existente no fue modificado.', 'fallo');
+    }
   });
 });
