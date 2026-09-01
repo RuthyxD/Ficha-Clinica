@@ -633,7 +633,9 @@ const fichasTest = [
     "comentarios": "Último registro de prueba."
   }
 ]
-escribirFichas(fichasTest); 
+// Se cargan las fichas de ejemplo SOLO si el almacenamiento está vacío,
+// para no borrar los registros que ingrese el usuario al recargar la página.
+if (leerFichas().length === 0) escribirFichas(fichasTest);
 
 function buscarApellido() {
   const termino = document.getElementById('buscarApellido').value.trim();
