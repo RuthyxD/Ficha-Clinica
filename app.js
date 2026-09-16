@@ -62,8 +62,18 @@ function escribirFichas(lista) {
   localStorage.setItem(CLAVE_ALMACEN, JSON.stringify(lista));
 }
 
+// CORRECCIÓN DEF-02: el RUT se compara y se guarda normalizado (sin puntos,
+// con guion y dígito verificador en mayúscula) para que 12345678-5 y
+// 12.345.678-5 se reconozcan como el mismo paciente.
+function normalizarRut(rut) {
+  const limpio = String(rut || '').replace(/\./g, '').replace(/-/g, '').toUpperCase();
+  if (limpio.length < 2) return limpio;
+  return limpio.slice(0, -1) + '-' + limpio.slice(-1);
+}
+
 function buscarPorRut(rut) {
-  return leerFichas().findIndex(f => f.rut === rut);
+  const buscado = normalizarRut(rut);
+  return leerFichas().findIndex(f => normalizarRut(f.rut) === buscado);
 }
 
 function datosFormulario() {
@@ -72,6 +82,7 @@ function datosFormulario() {
    'fechaNacimiento','estadoCivil','comentarios'].forEach(c => {
     d[c] = document.getElementById(c).value.trim();
   });
+  d.rut = normalizarRut(d.rut);   // CORRECCIÓN DEF-02
   return d;
 }
 
@@ -651,7 +662,7 @@ function buscarApellido() {
     return;
   }
   if (!/^[A-Za-zÁÉÍÓÚáéíóúÑñÜü\s]+$/.test(termino)){
-     mostrarError('buscarApellido', 'Formato invalido. Solo se admiten letras y espacios.');
+     mostrarError('buscarApellido', 'Formato inválido. Solo se admiten letras y espacios.');
     return;
   }
   // if (termino.length < 2) {
@@ -691,14 +702,14 @@ function pintarResultados(lista) {
 
 const limiteDatos = 10;
 
-  if(lista.length<limiteDatos){
+  if(lista.length<=limiteDatos){   // CORRECCIÓN DEF-01: el valor borde (10 registros) no se pintaba
     lista.forEach(f => {
       html += `<tr><td>${f.rut}</td><td>${f.nombres}</td><td>${f.apellidos}</td><td>${f.fechaNacimiento}</td><td>${f.email}</td><td>${f.telefono}</td><td>${f.ciudad}</td><td>${f.direccion}</td><td>${f.estadoCivil}</td><td>${f.comentarios}</td></tr>`;
     });
     div.innerHTML = html + '</table>';  
   }
 
-  if(lista.length>limiteDatos){
+  else{
     let subarray = dividirLista(lista,limiteDatos);
     let pagina= 0;
     pintarPagina(subarray,pagina);
